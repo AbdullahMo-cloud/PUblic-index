@@ -1,0 +1,8 @@
+{
+  "name": "Change Factory Index",
+  "description": "Change Factory Index - Enterprise Change Control Factory (CCF) tracker and Change Factory Index dashboard with automated SLA calculations, 2026 new case translations, and executive KPI cards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

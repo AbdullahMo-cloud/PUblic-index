@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/etisalat.ico" />
+    <link rel="icon" type="image/png" href="/etisalat-icon.png" />
+    <link rel="apple-touch-icon" href="/etisalat-icon.png" />
+    <script>
+      (function() {
+        try {
+          var _origFetch = window.fetch;
+          var _currentFetch = function() {
+            return (_origFetch || window.fetch).apply(window, arguments);
+          };
+          Object.defineProperty(window, 'fetch', {
+            configurable: true,
+            enumerable: true,
+            get: function() {
+              return _currentFetch;
+            },
+            set: function(val) {
+              _currentFetch = val;
+            }
+          });
+        } catch (e) {}
+      })();
+    </script>
+    <title>Change Factory Index</title>
+    <meta name="description" content="Change Factory Index - Enterprise Change Control Factory (CCF) tracker and Change Factory Index dashboard with automated SLA calculations, 2026 new case translations, and executive KPI cards." />
+    <meta property="og:title" content="Change Factory Index" />
+    <meta property="og:description" content="Change Factory Index - Enterprise Change Control Factory (CCF) tracker and Change Factory Index dashboard with automated SLA calculations, 2026 new case translations, and executive KPI cards." />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#E30613" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

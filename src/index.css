@@ -1,0 +1,429 @@
+@import "tailwindcss";
+
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: #f3f3f4;
+  --glass: rgba(255, 255, 255, 0.75);
+  --glass2: rgba(0, 0, 0, 0.04);
+  --stroke: rgba(10, 15, 40, 0.08);
+  --text: #141416;
+  --muted: #6b6b72;
+  --accent: #E30613;
+  --accent2: #B8050F;
+  --glow: rgba(227, 6, 19, 0.18);
+  --blob1: #ffd3d0;
+  --blob2: #dcdce0;
+  --shadow: 0 10px 30px rgba(30, 40, 90, 0.08);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Glass Sidebar Exact Spec from user HTML & image */
+.side {
+  --w: 288px;
+  position: relative;
+  z-index: 20;
+  width: var(--w);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, var(--glass), color-mix(in srgb, var(--glass) 80%, transparent));
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  border: 1px solid var(--stroke);
+  border-radius: 26px;
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  transition: width 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  overflow: hidden;
+  user-select: none;
+}
+
+.side.collapsed {
+  --w: 76px;
+}
+
+.side::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 0%), rgba(255, 255, 255, 0.12), transparent 60%);
+}
+
+.side .head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 18px 16px;
+  min-height: 78px;
+}
+
+.side .logo {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(227, 6, 19, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border: 1px solid #fee2e2;
+  transition: all 0.2s ease;
+}
+
+.side .logo svg {
+  display: block;
+  width: 28px;
+  height: auto;
+  max-height: 22px;
+}
+
+.side .brand {
+  min-width: 0;
+  flex: 1;
+  white-space: nowrap;
+}
+
+.side .brand img.wm {
+  display: block;
+  height: 19px;
+  width: auto;
+  object-fit: contain;
+}
+
+.side .brand span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.side .iconbtn {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  border: 1px solid var(--stroke);
+  background: var(--glass2);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.side .iconbtn:hover {
+  color: var(--text);
+  background: color-mix(in srgb, var(--text) 10%, transparent);
+}
+
+.side .iconbtn svg {
+  transition: transform 0.35s;
+}
+
+.side.collapsed .iconbtn.tog svg {
+  transform: rotate(180deg);
+}
+
+.side nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 14px 10px;
+  position: relative;
+  scrollbar-width: none;
+}
+
+.side nav::-webkit-scrollbar {
+  display: none;
+}
+
+.side .sec {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 6px 8px;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+  height: 14px;
+}
+
+.side .sec i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+  flex: none;
+}
+
+.side.collapsed .sec span {
+  display: none;
+}
+
+.side.collapsed .sec {
+  justify-content: center;
+  margin-inline: 0;
+}
+
+.side .pill {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  top: 0;
+  height: 50px;
+  border-radius: 15px;
+  pointer-events: none;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 18%, transparent), color-mix(in srgb, var(--accent) 6%, transparent));
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: 0 8px 28px var(--glow), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.25, 1.1), opacity 0.2s;
+  opacity: 0;
+  z-index: 1;
+}
+
+.side .pill::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 12px;
+  bottom: 12px;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: var(--accent);
+  box-shadow: 0 0 14px var(--accent);
+}
+
+.side .item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+  height: 50px;
+  padding: 0 10px;
+  margin-bottom: 4px;
+  border-radius: 15px;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  white-space: nowrap;
+  outline: 0;
+  transition: background 0.2s;
+  z-index: 2;
+}
+
+.side .item:hover {
+  background: var(--glass2);
+}
+
+.side .item:focus-visible {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.side .ico {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  background: var(--glass2);
+  border: 1px solid var(--stroke);
+  transition: 0.25s;
+}
+
+.side .item:hover .ico {
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.side .item.on .ico {
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-color: transparent;
+  box-shadow: 0 6px 18px var(--glow);
+}
+
+.side .lbl {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13.5px;
+}
+
+.side .badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  color: var(--accent);
+}
+
+.side .badge.n {
+  background: var(--glass2);
+  color: var(--muted);
+  border: 1px solid var(--stroke);
+}
+
+.side .chev {
+  color: var(--muted);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: 0.25s;
+}
+
+.side .item:hover .chev,
+.side .item.on .chev {
+  opacity: 1;
+  transform: none;
+}
+
+.side.collapsed .lbl,
+.side.collapsed .badge,
+.side.collapsed .chev,
+.side.collapsed .brand {
+  display: none;
+}
+
+.side.collapsed .item {
+  padding: 0 7px;
+  justify-content: center;
+}
+
+.side.collapsed .head {
+  flex-direction: column;
+  padding-inline: 0;
+  gap: 10px;
+  justify-content: center;
+}
+
+.side.collapsed nav {
+  padding-inline: 12px;
+}
+
+.side.collapsed .pill {
+  left: 12px;
+  right: 12px;
+}
+
+.side.collapsed .item[data-tip]:hover::after {
+  content: attr(data-tip);
+  position: fixed;
+  left: 92px;
+  padding: 7px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow);
+  color: var(--text);
+  z-index: 50;
+  pointer-events: none;
+}
+
+.side .foot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 14px 14px;
+  padding: 10px 12px;
+  border-radius: 16px;
+  background: var(--glass2);
+  border: 1px solid var(--stroke);
+  white-space: nowrap;
+}
+
+.side .av {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #2b2b30, #141416);
+}
+
+.side .who {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.side .who small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.side .live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #E00800;
+}
+
+.side .live i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #E00800;
+  box-shadow: 0 0 0 0 rgba(224, 8, 0, 0.6);
+  animation: pulseLive 2s infinite;
+}
+
+@keyframes pulseLive {
+  70% {
+    box-shadow: 0 0 0 7px rgba(224, 8, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(224, 8, 0, 0);
+  }
+}
+
+.side.collapsed .who,
+.side.collapsed .live span {
+  display: none;
+}
+
+.side.collapsed .foot {
+  justify-content: center;
+  padding: 10px 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+

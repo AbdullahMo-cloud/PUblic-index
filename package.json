@@ -1,0 +1,82 @@
+{
+  "name": "react-example",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Change Factory Index - Enterprise Change Control Factory Management",
+  "author": "Etisalat CCF Team",
+  "type": "module",
+  "main": "electron.cjs",
+  "scripts": {
+    "dev": "tsx server.ts",
+    "build": "vite build",
+    "dist": "npm run build && electron-builder --win portable zip",
+    "electron:dev": "concurrently -k \"vite\" \"wait-on tcp:3000 && electron .\"",
+    "start": "node server.ts",
+    "preview": "vite preview",
+    "clean": "rm -rf dist dist-desktop release",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@electron/asar": "^3.4.1",
+    "@google/genai": "^2.4.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.1",
+    "dotenv": "^17.2.3",
+    "exceljs": "^4.4.0",
+    "express": "^4.21.2",
+    "html-to-image": "^1.11.13",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
+    "pptxgenjs": "^4.0.1",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "vite": "^8.3.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "autoprefixer": "^10.4.21",
+    "concurrently": "^9.1.2",
+    "electron": "^35.0.0",
+    "electron-builder": "^25.1.8",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.21.0",
+    "typescript": "^7.0.2",
+    "wait-on": "^8.0.2"
+  },
+  "build": {
+    "appId": "com.etisalat.changefactoryindex",
+    "productName": "Change Factory Index",
+    "directories": {
+      "output": "dist-desktop"
+    },
+    "files": [
+      "dist/**/*",
+      "build/**/*",
+      "public/**/*",
+      "electron.cjs"
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        "portable",
+        "zip"
+      ]
+    },
+    "portable": {
+      "artifactName": "${productName} V.${version}.${ext}",
+      "requestExecutionLevel": "user"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Change Factory Index",
+      "artifactName": "${productName}_Setup_V.${version}.${ext}"
+    }
+  }
+}
